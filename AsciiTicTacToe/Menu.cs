@@ -21,16 +21,50 @@ namespace AsciiTicTacToe
                 {
                     switch (currentPosition[0])
                     {
-                        case 0:
-                            Sounds.Stop();
-                            Game.Singleplayer.WithPlayer();
-                            if (Settings.Default.Music) { Sounds.PlayLooping(); }
-                            break;
+                        case 0: Menu.ChangeGamemodeMenu(); break;
                         case 1: Menu.SettingsMenu(); break;
                         case 2: Environment.Exit(0); break;
                     }
                 }
                 Program.Render("Menu", parametr: currentPosition[0]);
+                if (Program.debugMode)
+                {
+                    Console.WriteLine("currentPosition[0]: {0}", currentPosition[0]);
+                }
+            }
+        }
+
+        public static void ChangeGamemodeMenu()
+        {
+            SoundPlayer Sounds = new SoundPlayer(Resources.MenuMusic);
+            int[] currentPosition = new int[2] { 0, 0 };
+            Program.Render("ChangeGamemode", parametr: 0);
+            while (true)
+            {
+                if (Program.Controls("Settings", currentPosition: ref currentPosition))
+                {
+                    switch (currentPosition[0])
+                    {
+                        case 0:
+                            Sounds.Stop();
+                            Game.Singleplayer.WithComputer();
+                            if (Settings.Default.Music) { Sounds.PlayLooping(); }
+                            return;
+                        case 1:
+                            Sounds.Stop();
+                            Game.Singleplayer.WithPlayer();
+                            if (Settings.Default.Music) { Sounds.PlayLooping(); }
+                            return;
+                        case 2:
+                            //Sounds.Stop();
+                            //Game.Singleplayer.WithComputer();
+                            //if (Settings.Default.Music) { Sounds.PlayLooping(); }
+                            break;
+                        case 3: break;
+                        case 4: return;
+                    }
+                }
+                Program.Render("ChangeGamemode", parametr: currentPosition[0]);
                 if (Program.debugMode)
                 {
                     Console.WriteLine("currentPosition[0]: {0}", currentPosition[0]);

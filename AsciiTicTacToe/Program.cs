@@ -207,6 +207,76 @@ namespace AsciiTicTacToe
                             break;
                     }
                     break;
+                case "ChangeGamemode":
+                    switch (parametr)
+                    {
+                        case 0:
+                            Console.WriteLine("Выбор  игры");
+                            Console.WriteLine("");
+                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.WriteLine("   С  ИИ   ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine(" С игроком ");
+                            Console.WriteLine("  По сети  ");
+                            Console.WriteLine("           ");
+                            Console.WriteLine("   Назад   ");
+                            break;
+                        case 1:
+                            Console.WriteLine("Выбор  игры");
+                            Console.WriteLine("");
+                            Console.WriteLine("   С  ИИ   ");
+                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.WriteLine(" С игроком ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("  По сети  ");
+                            Console.WriteLine("           ");
+                            Console.WriteLine("   Назад   ");
+                            break;
+                        case 2:
+                            Console.WriteLine("Выбор  игры");
+                            Console.WriteLine("");
+                            Console.WriteLine("   С  ИИ   ");
+                            Console.WriteLine(" С игроком ");
+                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.WriteLine("  По сети  ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("           ");
+                            Console.WriteLine("   Назад   ");
+                            break;
+                        case 3:
+                            Console.WriteLine("Выбор  игры");
+                            Console.WriteLine("");
+                            Console.WriteLine("   С  ИИ   ");
+                            Console.WriteLine(" С игроком ");
+                            Console.WriteLine("  По сети  ");
+                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.WriteLine("           ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("   Назад   ");
+                            break;
+                        case 4:
+                            Console.WriteLine("Выбор  игры");
+                            Console.WriteLine("");
+                            Console.WriteLine("   С  ИИ   ");
+                            Console.WriteLine(" С игроком ");
+                            Console.WriteLine("  По сети  ");
+                            Console.WriteLine("           ");
+                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.WriteLine("   Назад   ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            break;
+                    }
+                    break;
                 case "Game":
                     char[] val = { ' ', 'X', 'O' };
                     Console.WriteLine(" {0} ║ {1} ║ {2} ", val[field[0, 0]], val[field[1, 0]], val[field[2, 0]]);

@@ -12,9 +12,83 @@ namespace AsciiTicTacToe
     {
         public static class Singleplayer
         {
-            public static void WithComputer()
+            unsafe public static void WithComputer()
             {
+                SoundPlayer Sounds = new SoundPlayer(Resources.GameMusic);
+                if (Settings.Default.Music) { Sounds.PlayLooping(); }
 
+                int[,] field = new int[3, 3] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
+                int[] currentPosition = new int[] { 0, 0 };
+                int[] currentPositionAI = new int[] { 0, 0 };
+                int[] currentPositionReal = new int[] { 1, 0 };
+                int step = 1;
+                Random random = new Random();
+
+                Program.Render("Game", 0, field);
+                Console.CursorVisible = true;
+                Console.SetCursorPosition(currentPositionReal[0], currentPositionReal[1]);
+                while (true)
+                {
+                    switch(step)
+                    {
+                        case 1:
+                            /* Выполнение действия при нажатии Enter */
+                            if (Program.Controls("Game", ref currentPosition, ref currentPositionReal))
+                            {
+                                if (field[currentPosition[0], currentPosition[1]] == 0)
+                                {
+                                    field[currentPosition[0], currentPosition[1]] = 1;
+                                    if (Game.Singleplayer.Win(1, field))
+                                    {
+                                        Sounds.Stop();
+                                        goto outCycle;
+                                    }
+
+                                    step = 2;
+                                }
+                            }
+                            break;
+                        case 2:
+                            Thread.Sleep(500);
+                            List<List<int>> unfilledCells = new List<List<int>>();
+                            for (int i = 0; i <= 2; i++)
+                            {
+                                for (int j = 0; j <= 2; j++)
+                                {
+                                    if (field[i, j] == 0) { unfilledCells.Add(new List<int> { i, j }); }
+                                }
+                            }
+                            while (true)
+                            {
+                                int filledCell = random.Next(0, unfilledCells.Count);
+                                currentPositionAI[0] = unfilledCells[filledCell][0];
+                                currentPositionAI[1] = unfilledCells[filledCell][1];
+                                field[currentPositionAI[0], currentPositionAI[1]] = 2;
+                                    
+                                if (Game.Singleplayer.Win(2, field))
+                                {
+                                    Sounds.Stop();
+                                    goto outCycle;
+                                }
+
+                                step = 1;
+                                break;
+                            }
+                            break;
+                    }
+
+                    Program.Render("Game", step, field);
+
+                    if (Program.debugMode)
+                    {
+                        Console.WriteLine("currentPosition: ({0}, {1})", currentPosition[0], currentPosition[1]);
+                        Console.WriteLine("currentPositionReal: ({0}, {1})", currentPositionReal[0], currentPositionReal[1]);
+                        Console.WriteLine("field[{0}, {1}]: {2}", currentPosition[0], currentPosition[1], field[currentPosition[0], currentPosition[1]]);
+                        Console.WriteLine("step: {0}", step);
+                    }
+                    Console.SetCursorPosition(currentPositionReal[0], currentPositionReal[1]);
+                }
+                outCycle:;
             }
 
             unsafe public static void WithPlayer()
@@ -75,6 +149,8 @@ namespace AsciiTicTacToe
                 {
                     if ((field[i, 0] == step) && (field[i, 1] == step) && (field[i, 2] == step))
                     {
+                        Program.Render("Game", step, field);
+                        Thread.Sleep(1000);
                         Program.Render("Win", parametr: step);
                         while (true) { if (Console.ReadKey().Key == ConsoleKey.Enter) { return true; } Program.Render("Win", parametr: step); }
                     }
@@ -85,6 +161,8 @@ namespace AsciiTicTacToe
                 {
                     if ((field[0, i] == step) && (field[1, i] == step) && (field[2, i] == step))
                     {
+                        Program.Render("Game", step, field);
+                        Thread.Sleep(1000);
                         Program.Render("Win", parametr: step);
                         while (true) { if (Console.ReadKey().Key == ConsoleKey.Enter) { return true; } Program.Render("Win", parametr: step); }
                     }
@@ -93,12 +171,16 @@ namespace AsciiTicTacToe
                 /* Проверка диагоналей */
                 if ((field[0, 0] == step) && (field[1, 1] == step) && (field[2, 2] == step))
                 {
+                    Program.Render("Game", step, field);
+                    Thread.Sleep(1000);
                     Program.Render("Win", parametr: 1);
                     while (true) { if (Console.ReadKey().Key == ConsoleKey.Enter) { return true; } Program.Render("Win", parametr: step); }
                 }
 
                 if ((field[0, 2] == step) && (field[1, 1] == step) && (field[2, 0] == step))
                 {
+                    Program.Render("Game", step, field);
+                    Thread.Sleep(1000);
                     Program.Render("Win", parametr: step);
                     if (Console.ReadKey().Key == ConsoleKey.Enter)
                         while (true) { if (Console.ReadKey().Key == ConsoleKey.Enter) { return true; } Program.Render("Win", parametr: step); }
@@ -110,10 +192,12 @@ namespace AsciiTicTacToe
                 {
                     for (int j = 0; j <= 2; j++)
                     {
-                        if (field[i, j] != 0) { filledCells += 1; Console.Title = Convert.ToString(filledCells); }
+                        if (field[i, j] != 0) { filledCells += 1; }
 
                         if (filledCells == 9)
                         {
+                            Program.Render("Game", step, field);
+                            Thread.Sleep(1000);
                             Program.Render("Win", parametr: 0);
                             if (Console.ReadKey().Key == ConsoleKey.Enter)
                                 while (true) { if (Console.ReadKey().Key == ConsoleKey.Enter) { return true; } Program.Render("Win", parametr: 0); }
