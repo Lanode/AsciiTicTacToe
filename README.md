@@ -7,3 +7,5 @@ Controls:
 - Left arrow
 - Right arrow
 - Enter
+
+Music is created by C418
