@@ -8,4 +8,6 @@ Controls:
 - Right arrow
 - Enter
 
+Attribute "debug" in command line run a debug mode
+
 Music is created by C418
